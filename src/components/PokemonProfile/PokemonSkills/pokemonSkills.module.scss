@@ -1,0 +1,14 @@
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  text-align: center;
+  padding: 15px;
+}
+.skills__item {
+  width: 200px;
+  padding: 10px;
+  border: 1px solid black;
+  margin-top: 2px;
+  font-size: 20px;
+}
