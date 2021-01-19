@@ -4,7 +4,6 @@ import s from './pokemonProfile.module.scss';
 import defaultImg from "../../assets/img/pokeball.png";
 import Loader from "../../components/Loader/Loader";
 import PokemonSkills from "../../components/PokemonSkills/PokemonSkills";
-import {toUpperCase} from "../../utils/function/toUpperCase";
 
 class PokemonProfile extends React.Component {
     constructor(props) {
@@ -36,7 +35,7 @@ class PokemonProfile extends React.Component {
                     : <div className={s.container}>
                         <div className={s.pokemon__header}>
                             <div className={s.pokemon__logo}>
-                                <h2 className={s.pokemon__name}>{toUpperCase(this.state.pokemon.name)}</h2>
+                                <h2 className={s.pokemon__name}>{this.state.pokemon.name}</h2>
                                 <img
                                     id={this.state.pokemon.id}
                                     src={`https://pokeres.bastionbot.org/images/pokemon/${this.state.pokemon.id}.png`}
@@ -52,14 +51,14 @@ class PokemonProfile extends React.Component {
                                 <div>
                                     Тип Покемона
                                     {this.state.pokemon.types.map(type => {
-                                        return <div>{toUpperCase(type.type.name)}</div>
+                                        return <div className={s.pokemon__type}>{type.type.name}</div>
                                     })}
                                 </div>
 
                                 <div>Особые
                                     {this.state.pokemon.abilities.map(skill => {
                                         return <div className={s.ability} key={skill.ability.name}>
-                                            <div>Название способности: {toUpperCase(skill.ability.name)}</div>
+                                            <div>Название способности: {skill.ability.nam}</div>
                                             <div>Cлот: {skill.slot}</div>
                                         </div>
                                     })}

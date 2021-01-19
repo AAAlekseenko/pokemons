@@ -22,6 +22,10 @@
 
 .pokemon__name {
   font-size: 45px;
+  text-transform: capitalize;
+}
+.pokemon__type {
+  text-transform: capitalize;
 }
 
 .img {
@@ -51,4 +55,7 @@
 .skills {
   text-align: center;
   font-size: 30px;
+}
+.ability{
+  text-transform: capitalize;
 }

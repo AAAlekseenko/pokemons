@@ -1,10 +1,10 @@
 import React, {useState, useEffect} from 'react';
-import {getNextPokemonsAxios, getPokemons, getPokemonsAxios} from "../../store/cards/cardsReducer";
 import {connect} from "react-redux";
 import s from '../Cards/cards-cardList.module.scss'
 import {Link} from "react-router-dom";
-import {toUpperCase} from "../../utils/function/toUpperCase";
 import {InView} from 'react-intersection-observer';
+import {getPokemons} from "../../store/cards/getters";
+import {getNextPokemonsAxios, getPokemonsAxios} from "../../store/cards/action";
 
 const mapStateToProps = (state) => {
     return {
@@ -28,7 +28,6 @@ const PokeList = (props) => {
     }, [])
 
     const getNewPokemons = async (offset) => {
-        console.log(offset)
         return await props.getNextPokemonsAxios(offset);
     }
 
@@ -42,7 +41,7 @@ const PokeList = (props) => {
                             state: pokemon
                         }
                     }>
-                        <h2>{toUpperCase(pokemon.name)}</h2>
+                        <h2>{pokemon.name}</h2>
                     </Link>
                 )}
             </div>

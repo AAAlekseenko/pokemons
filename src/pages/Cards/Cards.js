@@ -1,16 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {
-    getNextPokemonsAxios,
-    getPokemons,
-    getPokemonsAxios
-}
-from "../../store/cards/cardsReducer";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 import s from './cards-cardList.module.scss';
 import defaultImg from '../../assets/img/pokeball.png';
-import {toUpperCase} from "../../utils/function/toUpperCase";
 import {InView} from "react-intersection-observer";
+import {getPokemons} from "../../store/cards/getters";
+import {getNextPokemonsAxios, getPokemonsAxios} from "../../store/cards/action";
 
 const mapStateToProps = (state) => {
     return {
@@ -32,7 +27,6 @@ const Cards = (props) => {
     }, [])
 
     const getNewPokemons = async (offset) => {
-        console.log(offset)
         return await props.getNextPokemonsAxios(offset);
     }
     const handleImageErrored = (e) => {
@@ -48,7 +42,7 @@ const Cards = (props) => {
                                 state: pokemon
                             }
                         }>
-                            <h2>{toUpperCase(pokemon.name)}</h2>
+                            <h2>{pokemon.name}</h2>
                             <img
                                 id={index + 1}
                                 src={`https://pokeres.bastionbot.org/images/pokemon/${index + 1}.png`}
