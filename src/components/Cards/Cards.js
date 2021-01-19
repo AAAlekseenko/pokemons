@@ -2,12 +2,13 @@ import React from 'react';
 import {
     getNextPokemonsAxios,
     getPokemons,
-    getPokemonsAxios,
-} from "../../store/cards/cardsReducer";
+    getPokemonsAxios
+}
+from "../../store/cards/cardsReducer";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 import s from './cards.module.scss';
-import defaultImg from '../../utils/img/pokeball.png';
+import defaultImg from '../../assets/img/pokeball.png';
 import {toUpperCase} from "../../utils/function/toUpperCase";
 
 const mapStateToProps = (state) => {
@@ -34,6 +35,7 @@ class Cards extends React.Component {
 
     componentDidMount() {
         this.props.getPokemonsAxios();
+
         const observer = new IntersectionObserver(() => {
                 this.props.getNextPokemonsAxios(this.state.offset);
                 this.setState({offset: this.state.offset + 20})
