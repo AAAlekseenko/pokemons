@@ -1,14 +1,14 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {getNextPokemonsAxios, getPokemons, getPokemonsAxios} from "../../store/cards/cardsReducer";
 import {connect} from "react-redux";
-import s from "../Cards/cards.module.scss";
+import s from '../Cards/cards-cardList.module.scss'
 import {Link} from "react-router-dom";
 import {toUpperCase} from "../../utils/function/toUpperCase";
+import {InView} from 'react-intersection-observer';
 
 const mapStateToProps = (state) => {
     return {
         pokemons: getPokemons(state),
-
     }
 }
 
@@ -19,32 +19,23 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-class PokeList extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            offset: 20
-        }
+
+const PokeList = (props) => {
+
+    const [offset, setOffset] = useState(30)
+    useEffect(() => {
+        return props.getPokemonsAxios();
+    }, [])
+
+    const getNewPokemons = async (offset) => {
+        console.log(offset)
+        return await props.getNextPokemonsAxios(offset);
     }
 
-    componentDidMount() {
-        this.props.getPokemonsAxios();
-        const observer = new IntersectionObserver(() => {
-                this.props.getNextPokemonsAxios(this.state.offset);
-                this.setState({offset: this.state.offset + 20})
-            },
-            {
-                root: null
-            });
-
-        observer.observe(document.getElementById('anchor'));
-    }
-
-
-    render() {
-        return (
-            <div className={s.container}>
-                {this.props.pokemons.map((pokemon, index) =>
+    return (
+        <div className={s.wrapper} id={'wrapper'}>
+            <div className={s.container} id={'container'}>
+                {props.pokemons.map((pokemon, index) =>
                     <Link key={index} className={s.card} to={
                         {
                             pathname: `/pokemonprofile/${index + 1}`,
@@ -54,10 +45,15 @@ class PokeList extends React.Component {
                         <h2>{toUpperCase(pokemon.name)}</h2>
                     </Link>
                 )}
-                <div id={'anchor'} className={s.anchor}> Red лучшая часть</div>
             </div>
-        );
-    }
+
+            <InView as="div" initialInView={true} className={s.anchor} onChange={(inView, entry) => {
+                getNewPokemons(offset).then(() => setOffset(offset + 30));
+            }}>
+                <h2>Red лучшая часть</h2>
+            </InView>
+        </div>
+    );
 
 
 }

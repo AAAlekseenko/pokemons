@@ -1,6 +1,6 @@
 import React from 'react';
 import s from './pokemonSkills.module.scss'
-import {toUpperCase} from "../../../utils/function/toUpperCase";
+import {toUpperCase} from "../../utils/function/toUpperCase";
 const PokemonSkills = (props) => {
     return (
         <div className={s.container}>

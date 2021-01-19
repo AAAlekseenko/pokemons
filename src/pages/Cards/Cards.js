@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
     getNextPokemonsAxios,
     getPokemons,
@@ -7,9 +7,10 @@ import {
 from "../../store/cards/cardsReducer";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
-import s from './cards.module.scss';
+import s from './cards-cardList.module.scss';
 import defaultImg from '../../assets/img/pokeball.png';
 import {toUpperCase} from "../../utils/function/toUpperCase";
+import {InView} from "react-intersection-observer";
 
 const mapStateToProps = (state) => {
     return {
@@ -24,39 +25,23 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-class Cards extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            offset: 20,
-        }
+const Cards = (props) => {
+    const [offset, setOffset] = useState(30)
+    useEffect(() => {
+        return props.getPokemonsAxios();
+    }, [])
+
+    const getNewPokemons = async (offset) => {
+        console.log(offset)
+        return await props.getNextPokemonsAxios(offset);
     }
-
-
-    componentDidMount() {
-        this.props.getPokemonsAxios();
-
-        const observer = new IntersectionObserver(() => {
-                this.props.getNextPokemonsAxios(this.state.offset);
-                this.setState({offset: this.state.offset + 20})
-            },
-
-            {
-                root: null
-            });
-
-        observer.observe(document.getElementById('anchor'));
-    }
-
-    handleImageErrored = (e) => {
+    const handleImageErrored = (e) => {
        return  e.target.setAttribute("src", defaultImg);
     }
-
-    render() {
         return (
             <div className={s.wrapper}>
                 <div className={s.container}>
-                    {this.props.pokemons.map((pokemon, index) =>
+                    {props.pokemons.map((pokemon, index) =>
                         <Link key={index} className={s.card} to={
                             {
                                 pathname: `/pokemonprofile/${index + 1}`,
@@ -67,7 +52,7 @@ class Cards extends React.Component {
                             <img
                                 id={index + 1}
                                 src={`https://pokeres.bastionbot.org/images/pokemon/${index + 1}.png`}
-                                onError={this.handleImageErrored}
+                                onError={handleImageErrored}
                                 className={s.img}
                             alt={'Кто украл покемона'}
                             />
@@ -75,13 +60,14 @@ class Cards extends React.Component {
                     )}
 
                 </div>
-                <div id={'anchor'} className={s.anchor}> Red лучшая часть</div>
+                <InView as="div" initialInView={true} className={s.anchor} onChange={(inView, entry) => {
+                    getNewPokemons(offset).then(() => setOffset(offset + 30));
+                }}>
+                    <h2>Red лучшая часть</h2>
+                </InView>
             </div>
 
         );
-    }
-
-
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cards);

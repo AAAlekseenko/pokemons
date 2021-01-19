@@ -37,11 +37,11 @@ export const setPokemonsAC = (value) => {
 }
 
 export const getPokemonsAxios = () => (dispatch) => {
-    return axios.get(`https://pokeapi.co/api/v2/pokemon/?limit=20&offset=0`)
+    return axios.get(`https://pokeapi.co/api/v2/pokemon/?limit=30&offset=0`)
         .then(response => dispatch(setPokemonsAC(response.data.results)))
 };
 
 export const getNextPokemonsAxios = (offset) => (dispatch) => {
-    return axios.get(`https://pokeapi.co/api/v2/pokemon/?limit=20&offset=${offset}`)
+    return axios.get(`https://pokeapi.co/api/v2/pokemon/?limit=30&offset=${offset}`)
         .then(response => dispatch(setPokemonsAC(response.data.results)))
 }

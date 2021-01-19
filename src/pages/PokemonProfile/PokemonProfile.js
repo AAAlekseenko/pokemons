@@ -2,8 +2,8 @@ import React from 'react';
 import axios from "axios";
 import s from './pokemonProfile.module.scss';
 import defaultImg from "../../assets/img/pokeball.png";
-import Loader from "../Loader/Loader";
-import PokemonSkills from "./PokemonSkills/PokemonSkills";
+import Loader from "../../components/Loader/Loader";
+import PokemonSkills from "../../components/PokemonSkills/PokemonSkills";
 import {toUpperCase} from "../../utils/function/toUpperCase";
 
 class PokemonProfile extends React.Component {
